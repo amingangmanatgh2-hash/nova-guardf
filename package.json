@@ -1,0 +1,41 @@
+{
+  "name": "nova-guardf",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Persian Telegram group guardian, emoji duels, separate DemGram app and separate self-client on one Cloudflare Worker.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "wrangler dev --ip 0.0.0.0",
+    "dev:demo": "wrangler dev --ip 0.0.0.0 --var DEMO_MODE:true --port 8787",
+    "check": "tsc --noEmit && node --check public/app.js && node scripts/catalog.mjs --check",
+    "build": "npm run check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "deploy": "wrangler deploy",
+    "dry-run": "wrangler deploy --dry-run --outdir .cache/worker",
+    "catalog": "node scripts/catalog.mjs",
+    "check:self": "python3 -m py_compile self/console.py self/self_client.py"
+  },
+  "cloudflare": {
+    "bindings": {
+      "PANEL_PASSWORD": {
+        "description": "فقط یک رمز دلخواه و قوی برای ورود پنل تعیین کنید (حداقل ۱۶ کاراکتر). توکن بات را بعد از نصب، داخل خود پنل می‌پرسیم؛ اتصال خودکار است."
+      }
+    }
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260817.1",
+    "@types/node": "^22.20.1",
+    "esbuild": "^0.28.2",
+    "miniflare": "^4.20260730.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.129.0"
+  },
+  "overrides": {
+    "undici": "7.29.0"
+  }
+}
